@@ -2,8 +2,11 @@
 
 export default function Home() {
     return (
-        <div className="text-red-500 underline">
-            <div>Hello, world!</div>
+        <div className="flex justify-center items-center h-full">
+            <div className="flex justify-center items-center flex-col">
+                <div>What do you want to learn?</div>
+                <div>This is in the center</div>
+            </div>
         </div>
     );
 }
