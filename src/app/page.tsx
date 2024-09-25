@@ -11,7 +11,11 @@ export default function Home() {
                         const stack = stacks[stackKey];
 
                         return (
-                            <Link href={stack.href} key={stack.href} className="border-2 border-solid rounded w-20 h-20 flex justify-center items-center p-3 hover:border-blue-400">
+                            <Link
+                                href={stack.href}
+                                key={stack.href}
+                                className={`${stack.hoverClass} border-2 border-solid rounded w-20 h-20 flex justify-center items-center p-3`}
+                            >
                                 <Image
                                     src={stack.logo}
                                     alt="Logo"
