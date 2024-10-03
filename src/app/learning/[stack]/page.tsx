@@ -1,5 +1,5 @@
 import Message from '@/components/Message';
-import stacks from '../../../data/stacks.json';
+import stacks from '@/data/stacks.json';
 import Prompt from '@/components/Prompt';
 import Header from '@/components/Header';
 
