@@ -12,8 +12,13 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
         <div className="h-full flex flex-col">
             <Header logo={stackObj.logo} info={stackObj.info} />
             <hr className="my-8" />
-            <Message />
-            <Prompt />
+            <div className="chat h-full flex flex-col overflow-auto">
+                <Message text="What is React?" avatar="/images/profile.jpg" index={0} />
+                <Message text="React is a popular library to create UIs..." avatar="/images/logo-open-ai.png" index={1} />
+            </div>
+            <div className="prompt flex mb-8">
+                <Prompt />
+            </div>
         </div>
     );
 };
