@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
 type MessageProps = {
-    text: string
     avatar: string
+    text: string
     index: number
 }
 
