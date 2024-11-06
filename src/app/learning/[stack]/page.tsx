@@ -4,7 +4,8 @@ import Message from '@/components/Message';
 import stacks from '@/data/stacks.json';
 import Prompt from '@/components/Prompt';
 import Header from '@/components/Header';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface MessageInterface {
     id: string;
@@ -15,10 +16,17 @@ export interface MessageInterface {
 
 const LearningStackPage = ({ params }: { params: { stack: string } }) => {
     const [messages, setMessages] = useState<MessageInterface[]>([]);
+    const chatRef = useRef<HTMLDivElement | null>(null);
 
     const stackKey = params.stack;
 
     const stackObj = stacks[stackKey as keyof typeof stacks];
+
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTo(0, chatRef.current.scrollHeight);
+        }
+    }, [messages]);
 
     const handleSubmit = (inputPrompt: string) => {
         if (inputPrompt.trim().length === 0) return;
@@ -27,7 +35,7 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
             return [
                 ...prev,
                 {
-                    id: new Date().toISOString(),
+                    id: uuidv4(),
                     author: 'human',
                     avatar: '/images/profile.jpg',
                     text: inputPrompt,
@@ -40,7 +48,7 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
         <div className="h-full flex flex-col">
             <Header logo={stackObj.logo} info={stackObj.info} />
             <hr className="my-8" />
-            <div className="chat h-full flex flex-col overflow-auto">
+            <div className="chat h-full flex flex-col overflow-auto" ref={chatRef}>
                 {messages.map(({ id, avatar, text }: MessageInterface, index: number) => (
                     <Message key={id} avatar={avatar} text={text} index={index} />
                 ))}
