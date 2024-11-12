@@ -28,20 +28,44 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
         }
     }, [messages]);
 
-    const handleSubmit = (inputPrompt: string) => {
-        if (inputPrompt.trim().length === 0) return;
+    const handleSubmit = async (prompt: string) => {
+        if (!prompt.trim()) return;
 
-        setMessages((prev: MessageInterface[]) => {
-            return [
-                ...prev,
-                {
-                    id: uuidv4(),
-                    author: 'human',
-                    avatar: '/images/profile.jpg',
-                    text: inputPrompt,
-                },
-            ];
-        });
+        const newMessage = {
+            id: uuidv4(),
+            author: 'human',
+            avatar: '/images/profile.jpg',
+            text: prompt,
+        };
+
+        setMessages((prev) => [...prev, newMessage]);
+
+        try {
+            const response = await fetch('/api/completion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt }),
+            });
+
+            const json = await response.json();
+
+            if (!response.ok) {
+                console.error(json?.error?.message);
+                return;
+            }
+
+            const aiMessage = {
+                id: uuidv4(),
+                author: 'ai',
+                avatar: '/images/logo-open-ai.png',
+                text: json.result,
+            };
+
+            setMessages((prev) => [...prev, aiMessage]);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+        }
     };
 
     return (
