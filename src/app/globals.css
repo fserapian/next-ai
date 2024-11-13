@@ -5,3 +5,17 @@
 html, body {
     height: 100%;
 }
+
+.blinking-cursor::after {
+    content: '|';
+    animation: blinking-cursor 1s steps(2, jump-none) infinite;
+}
+
+@keyframes blinking-cursor {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -31,7 +31,9 @@ const Message = ({ text: initialText, avatar, index }: MessageProps) => {
                 />
             </div>
             <div className="w-full">
-                {text}
+                <div className="blinking-cursor">
+                    {text}
+                </div>
             </div>
         </div>
     );
