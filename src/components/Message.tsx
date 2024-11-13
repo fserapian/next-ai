@@ -18,6 +18,10 @@ const Message = ({ text: initialText, avatar, index }: MessageProps) => {
         return () => clearTimeout(timeout);
     }, [initialText, text.length]);
 
+    const blinkingCursorClass = text.length === initialText.length
+        ? 'cursor-not-allowed'
+        : 'blinking-cursor';
+
     return (
         <div
             className={`flex flex-row bg-slate-${index % 2 === 0 ? '100' : '200'} p-4`}
@@ -31,7 +35,7 @@ const Message = ({ text: initialText, avatar, index }: MessageProps) => {
                 />
             </div>
             <div className="w-full">
-                <div className="blinking-cursor">
+                <div className={blinkingCursorClass}>
                     {text}
                 </div>
             </div>
