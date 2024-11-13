@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 type MessageProps = {
     avatar: string
@@ -6,7 +7,17 @@ type MessageProps = {
     index: number
 }
 
-const Message = ({ text, avatar, index }: MessageProps) => {
+const Message = ({ text: initialText, avatar, index }: MessageProps) => {
+    const [text, setText] = useState<string>('');
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setText(initialText.slice(0, text.length + 1));
+        }, 20);
+
+        return () => clearTimeout(timeout);
+    }, [initialText, text.length]);
+
     return (
         <div
             className={`flex flex-row bg-slate-${index % 2 === 0 ? '100' : '200'} p-4`}
