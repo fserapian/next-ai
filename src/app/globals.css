@@ -8,7 +8,7 @@ html, body {
 
 .blinking-cursor::after {
     content: '|';
-    animation: blinking-cursor 1s steps(2, jump-none) infinite;
+    animation: blinking-cursor 50ms steps(2, jump-none) infinite;
 }
 
 @keyframes blinking-cursor {

@@ -2,13 +2,14 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type MessageProps = {
+    author: string;
     avatar: string
     text: string
     index: number
 }
 
-const Message = ({ text: initialText, avatar, index }: MessageProps) => {
-    const [text, setText] = useState<string>('');
+const Message = ({ text: initialText, author, avatar, index }: MessageProps) => {
+    const [text, setText] = useState<string>(author === 'ai' ? '' : initialText);
 
     useEffect(() => {
         const timeout = setTimeout(() => {

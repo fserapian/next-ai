@@ -73,8 +73,8 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
             <Header logo={stackObj.logo} info={stackObj.info} />
             <hr className="my-8" />
             <div className="chat h-full flex flex-col overflow-auto" ref={chatRef}>
-                {messages.map(({ id, avatar, text }: MessageInterface, index: number) => (
-                    <Message key={id} avatar={avatar} text={text} index={index} />
+                {messages.map(({ id, author, avatar, text }: MessageInterface, index: number) => (
+                    <Message key={id} author={author} avatar={avatar} text={text} index={index} />
                 ))}
             </div>
             <div className="prompt flex mb-8">
