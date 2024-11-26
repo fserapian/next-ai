@@ -9,10 +9,21 @@ import { v4 as uuidv4 } from 'uuid';
 
 export interface MessageInterface {
     id: string;
-    author: string;
+    author: 'human' | 'ai';
     avatar: string;
     text: string;
 }
+
+const createMessage = (
+    author: 'human' | 'ai',
+    text: string,
+    avatar: string,
+): MessageInterface => ({
+    id: uuidv4(),
+    author,
+    avatar,
+    text,
+});
 
 const LearningStackPage = ({ params }: { params: { stack: string } }) => {
     const [messages, setMessages] = useState<MessageInterface[]>([]);
@@ -31,12 +42,7 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
     const handleSubmit = async (prompt: string) => {
         if (!prompt.trim()) return;
 
-        const newMessage = {
-            id: uuidv4(),
-            author: 'human',
-            avatar: '/images/profile.jpg',
-            text: prompt,
-        };
+        const newMessage = createMessage('human', prompt, '/images/profile.jpg');
 
         setMessages((prev) => [...prev, newMessage]);
 
@@ -54,14 +60,9 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
                 return;
             }
 
-            const text = json.completion.choices[0].message.content;
+            const text = json.completion.choices[0].message.content || 'No response';
 
-            const aiMessage = {
-                id: uuidv4(),
-                author: 'ai',
-                avatar: '/images/logo-open-ai.png',
-                text,
-            };
+            const aiMessage = createMessage('ai', text, '/images/logo-open-ai.png');
 
             setMessages((prev) => [...prev, aiMessage]);
         } catch (error) {
@@ -69,6 +70,10 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
             alert('Something went wrong. Please try again.');
         }
     };
+
+    if (!stackObj) {
+        return <div>Stack not found.</div>; // Handle invalid stack key
+    }
 
     return (
         <div className="h-full flex flex-col">
