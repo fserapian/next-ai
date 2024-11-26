@@ -54,11 +54,13 @@ const LearningStackPage = ({ params }: { params: { stack: string } }) => {
                 return;
             }
 
+            const text = json.completion.choices[0].message.content;
+
             const aiMessage = {
                 id: uuidv4(),
                 author: 'ai',
                 avatar: '/images/logo-open-ai.png',
-                text: json.result,
+                text,
             };
 
             setMessages((prev) => [...prev, aiMessage]);
